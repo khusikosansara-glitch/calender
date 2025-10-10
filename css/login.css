@@ -1,0 +1,198 @@
+/* 로그인 페이지 스타일 */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-primary);
+    padding: var(--spacing-md);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: var(--spacing-lg);
+}
+
+.login-title {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.login-subtitle {
+    font-size: 16px;
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.login-form {
+    background-color: var(--bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.form-group input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* 에러 메시지 */
+.error-message {
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    background-color: #fee;
+    color: #c33;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+[data-theme="dark"] .error-message {
+    background-color: #4a2020;
+    color: #ff6b6b;
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.login-button:hover {
+    opacity: 0.9;
+}
+
+.login-button:active {
+    opacity: 0.8;
+}
+
+/* 폼 하단 링크 */
+.form-footer {
+    text-align: center;
+    margin-top: var(--spacing-md);
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.link-button {
+    color: var(--accent-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0;
+}
+
+.link-button:hover {
+    text-decoration: underline;
+}
+
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+    .login-page {
+        padding: var(--spacing-sm);
+    }
+
+    .login-container {
+        padding: var(--spacing-md);
+    }
+
+    .login-title {
+        font-size: 28px;
+    }
+
+    .login-subtitle {
+        font-size: 14px;
+    }
+
+    .login-form {
+        padding: var(--spacing-md);
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .login-page {
+        padding: var(--spacing-sm);
+    }
+
+    .login-container {
+        padding: var(--spacing-sm);
+    }
+
+    .login-title {
+        font-size: 24px;
+    }
+
+    .login-subtitle {
+        font-size: 13px;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .login-form {
+        padding: var(--spacing-md);
+    }
+
+    .form-group input {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .login-button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .form-footer {
+        font-size: 13px;
+    }
+
+    .link-button {
+        font-size: 13px;
+    }
+}

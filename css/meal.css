@@ -1,0 +1,465 @@
+/* 식사 기록 모달 스타일 */
+.meal-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    padding: var(--spacing-md);
+}
+
+.meal-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meal-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.meal-modal-content {
+    position: relative;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    max-width: 600px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.3s ease;
+    z-index: 1001;
+}
+
+.meal-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.meal-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.meal-modal-date {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.meal-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.meal-modal-close:hover {
+    background-color: var(--hover-color);
+}
+
+/* 총 칼로리 표시 */
+.total-calories-display {
+    background-color: var(--accent-color);
+    color: white;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.total-calories-display .label {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 4px;
+}
+
+.total-calories-display .value {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* 식사 섹션 */
+.meal-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.meal-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meal-list {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm);
+    min-height: 60px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.meal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm);
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-sm);
+}
+
+.meal-item:last-child {
+    margin-bottom: 0;
+}
+
+.meal-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.meal-item-text {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.meal-item-calories {
+    color: var(--accent-color);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.meal-item-delete {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    min-height: 36px;
+}
+
+.meal-item-delete:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+}
+
+.meal-empty {
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-align: center;
+    padding: var(--spacing-sm);
+}
+
+/* 입력 그룹 */
+.meal-input-group {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--spacing-sm);
+}
+
+.meal-input {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    min-height: 40px;
+}
+
+.meal-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.meal-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.meal-input-small {
+    width: 80px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    text-align: center;
+    min-height: 40px;
+}
+
+.meal-input-small:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.meal-add-button {
+    padding: 10px 16px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+    min-height: 40px;
+}
+
+.meal-add-button:hover {
+    opacity: 0.9;
+}
+
+/* 추가 정보 섹션 */
+.extra-info-section {
+    margin-bottom: var(--spacing-md);
+}
+
+.extra-info-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.extra-info-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    min-height: 40px;
+}
+
+.extra-info-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+/* 물 섭취 카운터 */
+.water-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.water-counter-btn {
+    width: 50px;
+    height: 50px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.water-counter-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.water-counter-btn:active {
+    transform: scale(0.95);
+}
+
+.water-counter-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.water-counter-value {
+    min-width: 80px;
+    text-align: center;
+}
+
+.water-counter-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.water-counter-unit {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.extra-info-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    min-height: 80px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.extra-info-textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+/* 모달 하단 버튼 */
+.meal-modal-footer {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.meal-save-button {
+    flex: 1;
+    padding: 14px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    min-height: 48px;
+}
+
+.meal-save-button:hover {
+    opacity: 0.9;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 모바일 대응 */
+@media (max-width: 480px) {
+    .meal-modal {
+        padding: var(--spacing-sm);
+    }
+
+    .meal-modal-content {
+        padding: var(--spacing-md);
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .meal-modal-title {
+        font-size: 18px;
+    }
+
+    .meal-modal-date {
+        font-size: 12px;
+    }
+
+    .total-calories-display .value {
+        font-size: 24px;
+    }
+
+    .meal-section-title {
+        font-size: 14px;
+    }
+
+    .meal-input-group {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .meal-input,
+    .meal-input-small,
+    .meal-add-button {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .meal-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .meal-item-delete {
+        align-self: flex-end;
+        min-height: 40px;
+        padding: 8px 16px;
+    }
+
+    .water-counter {
+        gap: var(--spacing-sm);
+    }
+
+    .water-counter-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 28px;
+    }
+
+    .water-counter-number {
+        font-size: 36px;
+    }
+}

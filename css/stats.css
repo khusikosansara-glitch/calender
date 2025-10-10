@@ -1,0 +1,430 @@
+/* 통계 페이지 스타일 */
+.stats-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+/* 기간 선택 탭 */
+.stats-tabs {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.stats-tab {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.stats-tab:hover {
+    color: var(--text-primary);
+}
+
+.stats-tab.active {
+    color: var(--accent-color);
+}
+
+.stats-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+/* 통계 카드 그리드 */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.stats-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    text-align: center;
+}
+
+.stats-card-icon {
+    font-size: 32px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.stats-card-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.stats-card-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.stats-card-unit {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-left: 4px;
+}
+
+/* 차트 섹션 */
+.stats-section {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.stats-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm);
+}
+
+/* 빈 상태 */
+.stats-empty {
+    text-align: center;
+    padding: var(--spacing-lg);
+    color: var(--text-secondary);
+}
+
+.stats-empty-icon {
+    font-size: 48px;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.stats-empty p {
+    margin: 8px 0;
+}
+
+/* 요약 리스트 */
+.stats-summary-list {
+    list-style: none;
+}
+
+.stats-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stats-summary-item:last-child {
+    border-bottom: none;
+}
+
+.stats-summary-label {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.stats-summary-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+/* AI 분석 및 조언 섹션 */
+.ai-insights {
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(138, 93, 255, 0.1) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.ai-insights-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.ai-insights-icon {
+    font-size: 28px;
+}
+
+.ai-insights-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.ai-insights-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* 건강 스코어 */
+.health-score {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    text-align: center;
+}
+
+.health-score-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.health-score-value {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.health-score-value.excellent {
+    color: #28a745;
+}
+
+.health-score-value.good {
+    color: #4a90e2;
+}
+
+.health-score-value.fair {
+    color: #ffc107;
+}
+
+.health-score-value.poor {
+    color: #dc3545;
+}
+
+.health-score-status {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.health-score-status.excellent {
+    color: #28a745;
+}
+
+.health-score-status.good {
+    color: #4a90e2;
+}
+
+.health-score-status.fair {
+    color: #ffc107;
+}
+
+.health-score-status.poor {
+    color: #dc3545;
+}
+
+/* 인사이트 카드 */
+.insight-card {
+    background-color: var(--bg-secondary);
+    border-left: 4px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+}
+
+.insight-card.positive {
+    border-left-color: #28a745;
+}
+
+.insight-card.warning {
+    border-left-color: #ffc107;
+}
+
+.insight-card.critical {
+    border-left-color: #dc3545;
+}
+
+.insight-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.insight-card-icon {
+    font-size: 20px;
+}
+
+.insight-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.insight-card-content {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* 추천 사항 리스트 */
+.recommendations-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.recommendation-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-primary);
+    padding: 8px;
+    background-color: var(--bg-primary);
+    border-radius: 6px;
+}
+
+.recommendation-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.recommendation-text {
+    flex: 1;
+    line-height: 1.5;
+}
+
+/* 태블릿 */
+@media (max-width: 768px) {
+    .stats-page {
+        padding: var(--spacing-md);
+    }
+
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+
+    .stats-card {
+        padding: var(--spacing-sm);
+    }
+
+    .stats-card-icon {
+        font-size: 28px;
+    }
+
+    .stats-card-value {
+        font-size: 20px;
+    }
+
+    .stats-section {
+        padding: var(--spacing-md);
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+    .stats-page {
+        padding: var(--spacing-sm);
+    }
+
+    .stats-tabs {
+        gap: 4px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .stats-tab {
+        padding: 8px 12px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .stats-cards {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .stats-card-icon {
+        font-size: 24px;
+    }
+
+    .stats-card-value {
+        font-size: 18px;
+    }
+
+    .stats-section {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .stats-section-title {
+        font-size: 16px;
+    }
+
+    .chart-container {
+        height: 220px;
+        padding: 4px;
+    }
+
+    .stats-summary-item {
+        font-size: 13px;
+    }
+    
+    .ai-insights {
+        padding: var(--spacing-md);
+    }
+    
+    .ai-insights-icon {
+        font-size: 24px;
+    }
+    
+    .ai-insights-title {
+        font-size: 16px;
+    }
+    
+    .health-score-value {
+        font-size: 40px;
+    }
+    
+    .insight-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .insight-card-title {
+        font-size: 14px;
+    }
+    
+    .insight-card-content {
+        font-size: 13px;
+    }
+    
+    .recommendation-item {
+        font-size: 13px;
+        padding: 6px;
+    }
+}

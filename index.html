@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다이어트 캘린더</title>
+    
+    <!-- 테마 깜빡임 방지를 위한 인라인 스크립트 -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('diet_calendar_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/meal.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/stats.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 로그인 페이지 -->
+        <div id="loginPage" class="login-page">
+            <div class="login-container">
+                <h1 class="login-title">다이어트 캘린더</h1>
+                <p class="login-subtitle">건강한 습관을 기록하세요</p>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="loginEmail">이메일</label>
+                        <input type="email" id="loginEmail" placeholder="이메일을 입력하세요" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">비밀번호</label>
+                        <input type="password" id="loginPassword" placeholder="비밀번호를 입력하세요" required>
+                    </div>
+                    
+                    <div id="loginError" class="error-message"></div>
+                    
+                    <button type="submit" class="login-button">로그인</button>
+                    
+                    <p class="form-footer">
+                        계정이 없으신가요? 
+                        <button type="button" id="showRegister" class="link-button">회원가입</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- 회원가입 페이지 -->
+        <div id="registerPage" class="login-page" style="display: none;">
+            <div class="login-container">
+                <h1 class="login-title">회원가입</h1>
+                <p class="login-subtitle">새 계정을 만들어보세요</p>
+                
+                <form id="registerForm" class="login-form">
+                    <div class="form-group">
+                        <label for="registerEmail">이메일</label>
+                        <input type="email" id="registerEmail" placeholder="이메일을 입력하세요" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">비밀번호</label>
+                        <input type="password" id="registerPassword" placeholder="비밀번호를 입력하세요 (최소 6자)" required minlength="6">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPasswordConfirm">비밀번호 확인</label>
+                        <input type="password" id="registerPasswordConfirm" placeholder="비밀번호를 다시 입력하세요" required>
+                    </div>
+                    
+                    <div id="registerError" class="error-message"></div>
+                    
+                    <button type="submit" class="login-button">회원가입</button>
+                    
+                    <p class="form-footer">
+                        이미 계정이 있으신가요? 
+                        <button type="button" id="showLogin" class="link-button">로그인</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- 메인 앱 -->
+        <div id="mainApp" class="main-app" style="display: none;">
+            <header class="header">
+                <h1 id="backToCalendar" style="cursor: pointer;">다이어트 캘린더</h1>
+                <div class="header-actions">
+                    <button id="statsButton" class="profile-button" aria-label="통계">📊</button>
+                    <button id="profileButton" class="profile-button" aria-label="프로필">👤</button>
+                    <button id="themeToggle" class="theme-toggle" aria-label="다크모드 전환">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                    <button id="logoutButton" class="logout-button">로그아웃</button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <!-- 캘린더 화면 -->
+                <div id="calendarView" class="view-container">
+                    <div id="calendar" class="calendar-container"></div>
+                </div>
+
+                <!-- 통계 화면 -->
+                <div id="statsView" class="view-container" style="display: none;">
+                    <div id="statsContainer"></div>
+                </div>
+
+                <!-- 프로필 화면 -->
+                <div id="profileView" class="view-container" style="display: none;">
+                    <div class="profile-page">
+                        <div class="profile-header">
+                            <h2>내 프로필</h2>
+                            <p class="profile-email" id="profileEmail"></p>
+                        </div>
+
+                        <div class="profile-section">
+                            <h3>계정 정보</h3>
+                            <div class="profile-info-item">
+                                <span class="profile-info-label">이메일</span>
+                                <span class="profile-info-value" id="profileEmailDetail"></span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="profile-info-label">가입일</span>
+                                <span class="profile-info-value" id="profileCreatedAt"></span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="profile-info-label">최근 로그인</span>
+                                <span class="profile-info-value" id="profileLastLogin"></span>
+                            </div>
+                        </div>
+
+                        <div class="profile-section">
+                            <h3>설정</h3>
+                            <div class="profile-actions">
+                                <button class="profile-button" id="changePasswordBtn">비밀번호 변경</button>
+                                <button class="profile-button danger" id="deleteAccountBtn">계정 삭제</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- 일반 모달 -->
+        <div id="modal" class="modal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <p id="modalMessage" class="modal-message"></p>
+                <button id="modalClose" class="modal-button">확인</button>
+            </div>
+        </div>
+
+        <!-- 식사 기록 모달 -->
+        <div id="mealModal" class="meal-modal">
+            <div class="meal-modal-overlay"></div>
+            <div class="meal-modal-content">
+                <div class="meal-modal-header">
+                    <div>
+                        <h2 class="meal-modal-title">식사 기록</h2>
+                        <p class="meal-modal-date" id="mealModalDate"></p>
+                    </div>
+                    <button class="meal-modal-close" id="mealModalClose">✕</button>
+                </div>
+
+                <!-- 총 칼로리 표시 -->
+                <div class="total-calories-display">
+                    <div class="label">총 칼로리</div>
+                    <div class="value"><span id="totalCalories">0</span> kcal</div>
+                </div>
+
+                <!-- 아침 -->
+                <div class="meal-section">
+                    <h3 class="meal-section-title">🌅 아침</h3>
+                    <div class="meal-list" id="breakfastList"></div>
+                    <div class="meal-input-group">
+                        <input type="text" class="meal-input" id="breakfastTextInput" placeholder="예: 밥, 김치찌개">
+                        <input type="number" class="meal-input-small" id="breakfastCaloriesInput" placeholder="kcal">
+                        <button class="meal-add-button" id="addBreakfast">추가</button>
+                    </div>
+                </div>
+
+                <!-- 점심 -->
+                <div class="meal-section">
+                    <h3 class="meal-section-title">☀️ 점심</h3>
+                    <div class="meal-list" id="lunchList"></div>
+                    <div class="meal-input-group">
+                        <input type="text" class="meal-input" id="lunchTextInput" placeholder="예: 파스타, 샐러드">
+                        <input type="number" class="meal-input-small" id="lunchCaloriesInput" placeholder="kcal">
+                        <button class="meal-add-button" id="addLunch">추가</button>
+                    </div>
+                </div>
+
+                <!-- 저녁 -->
+                <div class="meal-section">
+                    <h3 class="meal-section-title">🌙 저녁</h3>
+                    <div class="meal-list" id="dinnerList"></div>
+                    <div class="meal-input-group">
+                        <input type="text" class="meal-input" id="dinnerTextInput" placeholder="예: 치킨, 샐러드">
+                        <input type="number" class="meal-input-small" id="dinnerCaloriesInput" placeholder="kcal">
+                        <button class="meal-add-button" id="addDinner">추가</button>
+                    </div>
+                </div>
+
+                <!-- 간식 -->
+                <div class="meal-section">
+                    <h3 class="meal-section-title">🍪 간식</h3>
+                    <div class="meal-list" id="snackList"></div>
+                    <div class="meal-input-group">
+                        <input type="text" class="meal-input" id="snackTextInput" placeholder="예: 과일, 견과류">
+                        <input type="number" class="meal-input-small" id="snackCaloriesInput" placeholder="kcal">
+                        <button class="meal-add-button" id="addSnack">추가</button>
+                    </div>
+                </div>
+
+                <!-- 물 섭취 -->
+                <div class="extra-info-section">
+                    <h4 class="extra-info-title">💧 물 섭취</h4>
+                    <div class="water-counter">
+                        <button type="button" class="water-counter-btn" id="waterDecreaseBtn">−</button>
+                        <div class="water-counter-value">
+                            <div class="water-counter-number" id="waterCount">0</div>
+                            <div class="water-counter-unit">잔</div>
+                        </div>
+                        <button type="button" class="water-counter-btn" id="waterIncreaseBtn">+</button>
+                    </div>
+                </div>
+
+                <!-- 운동 -->
+                <div class="extra-info-section">
+                    <h4 class="extra-info-title">💪 운동</h4>
+                    <input type="text" class="extra-info-input" id="exerciseInput" placeholder="예: 런닝 30분, 근력운동">
+                </div>
+
+                <!-- 메모 -->
+                <div class="extra-info-section">
+                    <h4 class="extra-info-title">📝 메모</h4>
+                    <textarea class="extra-info-textarea" id="memoInput" placeholder="오늘의 기분, 컨디션 등을 기록하세요"></textarea>
+                </div>
+
+                <div class="meal-modal-footer">
+                    <button class="meal-save-button" id="mealModalSave">저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

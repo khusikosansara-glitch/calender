@@ -1,0 +1,367 @@
+/* 캘린더 컴포넌트 스타일 */
+.calendar-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.calendar-header h2 {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.calendar-nav button {
+    padding: var(--spacing-sm);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s ease;
+    min-width: 60px;
+}
+
+.calendar-nav button:hover {
+    background-color: var(--hover-color);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background-color: var(--hover-color);
+}
+
+.calendar-day.today {
+    border-color: var(--accent-color);
+    border-width: 2px;
+}
+
+.calendar-day.selected {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.calendar-day.has-meal {
+    background-color: rgba(74, 144, 226, 0.1);
+}
+
+[data-theme="dark"] .calendar-day.has-meal {
+    background-color: rgba(90, 163, 240, 0.15);
+}
+
+.calendar-day.has-meal::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+}
+
+.calendar-day.selected.has-meal::after {
+    background-color: white;
+}
+
+/* 식사 기록 요약 영역 */
+.meal-summary {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.meal-summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.meal-summary-date {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.meal-summary-edit {
+    padding: 8px 16px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.meal-summary-edit:hover {
+    opacity: 0.9;
+}
+
+/* 통계 영역 */
+.meal-summary-stats {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+}
+
+.stat-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-sm);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+/* 식사 섹션 */
+.meal-summary-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+}
+
+.meal-summary-section {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+}
+
+.meal-summary-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.meal-summary-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.meal-summary-section-total {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.meal-summary-list {
+    list-style: none;
+}
+
+.meal-summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-primary);
+    padding: 4px 0;
+}
+
+.meal-item-cal {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.meal-empty-text {
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* 추가 정보 영역 */
+.meal-summary-extra {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+}
+
+.meal-summary-extra h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.meal-summary-extra p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* 빈 상태 */
+.meal-summary-empty {
+    text-align: center;
+    padding: var(--spacing-lg);
+    color: var(--text-secondary);
+}
+
+.meal-summary-empty p {
+    margin: 8px 0;
+}
+
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+    .calendar-container {
+        padding: var(--spacing-md);
+    }
+
+    .calendar-header h2 {
+        font-size: 16px;
+    }
+
+    .calendar-nav button {
+        padding: 6px 12px;
+        min-width: 50px;
+        font-size: 13px;
+    }
+
+    .calendar-day {
+        font-size: 13px;
+    }
+
+    .meal-summary {
+        padding: var(--spacing-md);
+    }
+
+    .meal-summary-content {
+        grid-template-columns: 1fr;
+    }
+
+    .meal-summary-stats {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .calendar-container {
+        padding: var(--spacing-sm);
+    }
+
+    .calendar-header {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .calendar-header h2 {
+        font-size: 14px;
+    }
+
+    .calendar-nav button {
+        padding: 4px 8px;
+        min-width: 40px;
+        font-size: 12px;
+    }
+
+    .calendar-grid {
+        gap: 2px;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .calendar-day {
+        font-size: 12px;
+        border-radius: 4px;
+    }
+
+    .calendar-day.has-meal::after {
+        bottom: 2px;
+        width: 3px;
+        height: 3px;
+    }
+
+    .meal-summary {
+        padding: var(--spacing-sm);
+        margin-top: var(--spacing-md);
+    }
+
+    .meal-summary-header {
+        margin-bottom: var(--spacing-sm);
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .meal-summary-date {
+        font-size: 14px;
+    }
+
+    .meal-summary-edit {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .stat-item {
+        padding: var(--spacing-sm) 0;
+    }
+
+    .stat-label {
+        font-size: 11px;
+    }
+
+    .stat-value {
+        font-size: 16px;
+    }
+}
+
+/* 아주 작은 화면 (360px 이하) */
+@media (max-width: 360px) {
+    .calendar-header h2 {
+        font-size: 13px;
+    }
+
+    .calendar-nav button {
+        padding: 4px 6px;
+        min-width: 35px;
+        font-size: 11px;
+    }
+
+    .calendar-day {
+        font-size: 11px;
+    }
+}
