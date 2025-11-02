@@ -14,6 +14,11 @@
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
+    
+    /* 광고 배너 (사용 안함) */
+    --ad-banner-width: 0px;     /* 광고 비활성화 */
+    --ad-banner-gap: 0px;       /* 간격 제거 */
+    --content-padding: 60px;    /* 콘텐츠 좌우 여백 (15% 축소) */
 }
 
 /* 다크 모드 색상 */

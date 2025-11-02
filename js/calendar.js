@@ -10,6 +10,7 @@ export class Calendar {
             month: new Date().getMonth(),
             day: new Date().getDate()
         };
+        this.weekdays = ['일', '월', '화', '수', '목', '금', '토'];
     }
 
     render() {
@@ -23,12 +24,12 @@ export class Calendar {
                 </div>
                 <h2>${year}년 ${month + 1}월</h2>
                 <div class="calendar-nav">
+                    <button id="todayButton">오늘</button>
                     <button id="nextMonth">다음</button>
                 </div>
             </div>
-            <div class="calendar-grid">
-                ${this.generateDays()}
-            </div>
+            ${this.generateWeekdaysHeader()}
+            ${this.generateCalendarGrid()}
             <div class="meal-summary">
                 ${this.generateMealSummary()}
             </div>
@@ -38,31 +39,114 @@ export class Calendar {
         this.attachEvents();
     }
 
-    generateDays() {
+    // 요일 헤더 생성
+    generateWeekdaysHeader() {
+        let html = '<div class="calendar-weekdays">';
+        
+        // 주차 라벨
+        html += '<div class="calendar-weekday week-label">주차</div>';
+        
+        // 요일
+        this.weekdays.forEach((day, index) => {
+            const classes = [];
+            if (index === 0) classes.push('sunday');
+            if (index === 6) classes.push('saturday');
+            
+            html += `<div class="calendar-weekday ${classes.join(' ')}">${day}</div>`;
+        });
+        
+        html += '</div>';
+        return html;
+    }
+
+    // 연도 기준 주차 계산 (일요일 시작)
+    getWeekNumber(date) {
+        const year = date.getFullYear();
+        const startOfYear = new Date(year, 0, 1);
+        
+        // 1월 1일이 무슨 요일인지 (0: 일요일)
+        const startDay = startOfYear.getDay();
+        
+        // 1월 1일부터 현재 날짜까지의 일수
+        const diff = date - startOfYear;
+        const daysSinceStart = Math.floor(diff / (24 * 60 * 60 * 1000));
+        
+        // 1월 1일이 속한 주의 일요일까지 남은 일수
+        const daysToFirstSunday = startDay === 0 ? 0 : (7 - startDay);
+        
+        // 주차 계산
+        if (daysSinceStart < daysToFirstSunday) {
+            return 1;
+        } else {
+            const daysAfterFirstWeek = daysSinceStart - daysToFirstSunday;
+            return Math.floor(daysAfterFirstWeek / 7) + 2;
+        }
+    }
+
+    // 캘린더 그리드 생성
+    generateCalendarGrid() {
         const year = this.currentDate.getFullYear();
         const month = this.currentDate.getMonth();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        
+        const firstDayOfWeek = firstDay.getDay();
         
         const datesWithMeals = this.mealManager 
             ? this.mealManager.getDatesWithMeals(year, month)
             : [];
         
-        let html = '';
-        for (let day = 1; day <= daysInMonth; day++) {
-            const isToday = this.isToday(year, month, day);
-            const isSelected = this.isSelected(year, month, day);
-            const hasMeal = datesWithMeals.includes(day);
+        let html = '<div class="calendar-grid">';
+        let currentDay = 1;
+        
+        while (currentDay <= daysInMonth) {
+            html += '<div class="calendar-week-row">';
             
-            const classes = [
-                'calendar-day',
-                isToday ? 'today' : '',
-                isSelected ? 'selected' : '',
-                hasMeal ? 'has-meal' : ''
-            ].filter(Boolean).join(' ');
+            // 이번 주의 일요일 날짜
+            let weekStartDay = currentDay;
+            if (currentDay === 1) {
+                weekStartDay = 1;
+            } else {
+                const currentDayOfWeek = (firstDayOfWeek + currentDay - 1) % 7;
+                weekStartDay = currentDay - currentDayOfWeek;
+            }
             
-            html += `<div class="${classes}" data-year="${year}" data-month="${month}" data-day="${day}">${day}</div>`;
+            const weekDate = new Date(year, month, weekStartDay);
+            const weekNumber = this.getWeekNumber(weekDate);
+            
+            html += `<div class="calendar-week-number">${weekNumber}주</div>`;
+            
+            for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+                const isBeforeStart = (currentDay === 1 && dayOfWeek < firstDayOfWeek);
+                const isAfterEnd = (currentDay > daysInMonth);
+                
+                if (isBeforeStart || isAfterEnd) {
+                    html += '<div class="calendar-day" style="visibility: hidden;"></div>';
+                } else {
+                    const isToday = this.isToday(year, month, currentDay);
+                    const isSelected = this.isSelected(year, month, currentDay);
+                    const hasMeal = datesWithMeals.includes(currentDay);
+                    
+                    const classes = [
+                        'calendar-day',
+                        dayOfWeek === 0 ? 'sunday' : '',
+                        dayOfWeek === 6 ? 'saturday' : '',
+                        isToday ? 'today' : '',
+                        isSelected ? 'selected' : '',
+                        hasMeal ? 'has-meal' : ''
+                    ].filter(Boolean).join(' ');
+                    
+                    html += `<div class="${classes}" data-year="${year}" data-month="${month}" data-day="${currentDay}">${currentDay}</div>`;
+                    currentDay++;
+                }
+            }
+            
+            html += '</div>';
         }
         
+        html += '</div>';
         return html;
     }
 
@@ -73,7 +157,6 @@ export class Calendar {
         
         const dateStr = `${year}년 ${month + 1}월 ${day}일`;
         
-        // 데이터가 있는지 확인
         const hasData = !this.mealManager.isDateEmpty(meals);
         
         const buttonText = hasData ? '수정' : '작성';
@@ -105,6 +188,29 @@ export class Calendar {
                 ${this.generateMealSection('🌙 저녁', meals.dinner)}
                 ${this.generateMealSection('🍪 간식', meals.snack)}
             </div>
+            ${meals.images && meals.images.length > 0 ? `
+                <div class="meal-summary-extra">
+                    <div class="meal-summary-image-header">
+                        <h4>📷 사진</h4>
+                        ${meals.images.length > 1 ? `
+                            <div class="image-tabs">
+                                ${meals.images.map((img, index) => `
+                                    <button class="image-tab ${index === 0 ? 'active' : ''}" data-image-index="${index}">
+                                        사진 ${index + 1}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="meal-summary-images-container">
+                        ${meals.images.map((img, index) => `
+                            <div class="meal-summary-image-single ${index === 0 ? 'active' : ''}" data-image-id="${index}">
+                                <img src="${img.base64}" alt="사진 ${index + 1}" />
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
             ${meals.exercise ? `
                 <div class="meal-summary-extra">
                     <h4>💪 운동</h4>
@@ -175,13 +281,23 @@ export class Calendar {
     }
 
     attachEvents() {
-        // 이전/다음 버튼
         document.getElementById('prevMonth').addEventListener('click', () => {
             this.currentDate.setMonth(this.currentDate.getMonth() - 1);
             this.selectedDate = {
                 year: this.currentDate.getFullYear(),
                 month: this.currentDate.getMonth(),
                 day: 1
+            };
+            this.render();
+        });
+
+        document.getElementById('todayButton').addEventListener('click', () => {
+            const today = new Date();
+            this.currentDate = new Date(today);
+            this.selectedDate = {
+                year: today.getFullYear(),
+                month: today.getMonth(),
+                day: today.getDate()
             };
             this.render();
         });
@@ -196,19 +312,19 @@ export class Calendar {
             this.render();
         });
 
-        // 날짜 클릭
         this.container.querySelectorAll('.calendar-day').forEach(dayElement => {
             dayElement.addEventListener('click', (e) => {
                 const year = parseInt(e.target.dataset.year);
                 const month = parseInt(e.target.dataset.month);
                 const day = parseInt(e.target.dataset.day);
                 
-                this.selectedDate = { year, month, day };
-                this.render();
+                if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+                    this.selectedDate = { year, month, day };
+                    this.render();
+                }
             });
         });
 
-        // 작성/수정 버튼
         const editBtn = document.getElementById('editMealSummary');
         if (editBtn && this.onEditClick) {
             editBtn.addEventListener('click', () => {
@@ -219,6 +335,26 @@ export class Calendar {
                 );
             });
         }
+
+        // 이미지 탭 이벤트
+        this.container.querySelectorAll('.image-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                const index = parseInt(e.target.dataset.imageIndex);
+                
+                // 모든 탭 비활성화
+                this.container.querySelectorAll('.image-tab').forEach(t => t.classList.remove('active'));
+                // 클릭한 탭 활성화
+                e.target.classList.add('active');
+                
+                // 모든 이미지 숨기기
+                this.container.querySelectorAll('.meal-summary-image-single').forEach(img => img.classList.remove('active'));
+                // 해당 이미지 보이기
+                const targetImage = this.container.querySelector(`.meal-summary-image-single[data-image-id="${index}"]`);
+                if (targetImage) {
+                    targetImage.classList.add('active');
+                }
+            });
+        });
     }
 
     escapeHtml(text) {

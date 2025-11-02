@@ -3,7 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>다이어트 캘린더</title>
+    <title>LiteDays - 가벼운 다이어트 캘린더</title>
+    
+    <!-- SEO 메타 태그 -->
+    <meta name="description" content="LiteDays는 식단, 운동, 물 섭취를 기록하는 무료 다이어트 캘린더입니다. 건강한 습관을 만들고 체중 감량 목표를 달성하세요. 칼로리 계산기, 식사 기록, 운동 트래킹 기능 제공.">
+    <meta name="keywords" content="다이어트 캘린더, 식단 기록, 칼로리 계산기, 체중 감량, 건강 관리, 식사 일기, 운동 기록, 물 섭취, 다이어트 앱, 무료 다이어트">
+    <meta name="author" content="LiteDays">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://litedays.p-e.kr">
+    
+    <!-- Open Graph 메타 태그 (소셜 미디어 공유용) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LiteDays - 가벼운 다이어트 캘린더">
+    <meta property="og:description" content="식단, 운동, 물 섭취를 간편하게 기록하는 무료 다이어트 캘린더. 건강한 습관을 만들고 목표를 달성하세요.">
+    <meta property="og:url" content="https://litedays.p-e.kr">
+    <meta property="og:image" content="https://litedays.p-e.kr/assets/logo-icon.svg">
+    <meta property="og:site_name" content="LiteDays">
+    <meta property="og:locale" content="ko_KR">
+    
+    <!-- Twitter 카드 메타 태그 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LiteDays - 가벼운 다이어트 캘린더">
+    <meta name="twitter:description" content="식단, 운동, 물 섭취를 간편하게 기록하는 무료 다이어트 캘린더. 건강한 습관을 만들고 목표를 달성하세요.">
+    <meta name="twitter:image" content="https://litedays.p-e.kr/assets/logo-icon.svg">
+    
+    <!-- 파비콘 -->
+    <link rel="icon" type="image/svg+xml" href="assets/logo-icon.svg">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <!-- 테마 깜빡임 방지를 위한 인라인 스크립트 -->
     <script>
@@ -22,6 +50,7 @@
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/calendar.css">
     <link rel="stylesheet" href="css/stats.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/main.css">
     
     <!-- Chart.js CDN -->
@@ -32,7 +61,28 @@
         <!-- 로그인 페이지 -->
         <div id="loginPage" class="login-page">
             <div class="login-container">
-                <h1 class="login-title">다이어트 캘린더</h1>
+                <div class="login-logo">
+                    <div class="login-logo-icon">
+                        <div class="login-calendar-dots">
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot highlight"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                        </div>
+                    </div>
+                    <div class="login-logo-text">
+                        <span class="logo-lite">Lite</span><span class="logo-days">Days</span>
+                    </div>
+                </div>
+                <h1 class="login-title">가벼운 다이어트 캘린더</h1>
                 <p class="login-subtitle">건강한 습관을 기록하세요</p>
                 
                 <form id="loginForm" class="login-form">
@@ -61,6 +111,27 @@
         <!-- 회원가입 페이지 -->
         <div id="registerPage" class="login-page" style="display: none;">
             <div class="login-container">
+                <div class="login-logo">
+                    <div class="login-logo-icon">
+                        <div class="login-calendar-dots">
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot highlight"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                            <div class="login-calendar-dot"></div>
+                        </div>
+                    </div>
+                    <div class="login-logo-text">
+                        <span class="logo-lite">Lite</span><span class="logo-days">Days</span>
+                    </div>
+                </div>
                 <h1 class="login-title">회원가입</h1>
                 <p class="login-subtitle">새 계정을 만들어보세요</p>
                 
@@ -95,59 +166,184 @@
         <!-- 메인 앱 -->
         <div id="mainApp" class="main-app" style="display: none;">
             <header class="header">
-                <h1 id="backToCalendar" style="cursor: pointer;">다이어트 캘린더</h1>
+                <div class="header-logo" id="backToCalendar" style="cursor: pointer;">
+                    <div class="header-logo-icon">
+                        <div class="header-calendar-dots">
+                            <div class="header-calendar-dot"></div>
+                            <div class="header-calendar-dot"></div>
+                            <div class="header-calendar-dot"></div>
+                            <div class="header-calendar-dot"></div>
+                            <div class="header-calendar-dot highlight"></div>
+                            <div class="header-calendar-dot"></div>
+                            <div class="header-calendar-dot"></div>
+                            <div class="header-calendar-dot"></div>
+                            <div class="header-calendar-dot"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="logo-lite">Lite</span><span class="logo-days">Days</span>
+                    </div>
+                </div>
+                
+                <!-- 동기부여 문구 -->
+                <div class="motivation-text" id="motivationText">
+                    로딩 중...
+                </div>
+                
                 <div class="header-actions">
-                    <button id="statsButton" class="profile-button" aria-label="통계">📊</button>
-                    <button id="profileButton" class="profile-button" aria-label="프로필">👤</button>
-                    <button id="themeToggle" class="theme-toggle" aria-label="다크모드 전환">
-                        <span id="themeIcon">🌙</span>
+                    <button id="calendarButton" class="profile-button" aria-label="캘린더" data-tooltip="캘린더">
+                        <i class="fas fa-calendar-alt"></i>
                     </button>
-                    <button id="logoutButton" class="logout-button">로그아웃</button>
+                    <button id="dashboardButton" class="profile-button" aria-label="대시보드" data-tooltip="대시보드">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button id="statsButton" class="profile-button" aria-label="통계" data-tooltip="통계">
+                        <i class="fas fa-chart-line"></i>
+                    </button>
+                    <button id="profileButton" class="profile-button" aria-label="프로필" data-tooltip="프로필">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button id="themeToggle" class="theme-toggle" aria-label="다크모드 전환" data-tooltip="테마 전환">
+                        <i id="themeIcon" class="fas fa-moon"></i>
+                    </button>
+                    <button id="logoutButton" class="logout-button" data-tooltip="로그아웃">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="button-text">로그아웃</span>
+                    </button>
                 </div>
             </header>
 
             <main class="main-content">
-                <!-- 캘린더 화면 -->
-                <div id="calendarView" class="view-container">
-                    <div id="calendar" class="calendar-container"></div>
+                <!-- 광고 배너 - 왼쪽 -->
+                <div class="ad-banner ad-banner-left">
+                    <div class="ad-placeholder">
+                        <div class="ad-placeholder-icon">📢</div>
+                        <div class="ad-placeholder-text">광고 영역</div>
+                        <div class="ad-placeholder-size">160 x 600</div>
+                    </div>
                 </div>
+                
+                <!-- 콘텐츠 영역 -->
+                <div class="content-wrapper">
+                    <!-- 캘린더 화면 -->
+                    <div id="calendarView" class="view-container">
+                        <div id="calendar" class="calendar-container"></div>
+                    </div>
 
-                <!-- 통계 화면 -->
-                <div id="statsView" class="view-container" style="display: none;">
-                    <div id="statsContainer"></div>
+                    <!-- 대시보드 화면 -->
+                    <div id="dashboardView" class="view-container" style="display: none;">
+                        <div id="dashboardContainer" class="dashboard-container">
+                            <h2 class="dashboard-title">대시보드</h2>
+                            <div class="dashboard-grid">
+                                <!-- 요약 카드들 -->
+                                <div class="dashboard-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <h3 class="card-title">오늘의 칼로리</h3>
+                                        <p class="card-value" id="todayCalories">0 kcal</p>
+                                        <p class="card-subtitle">목표: 2000 kcal</p>
+                                    </div>
+                                </div>
+
+                                <div class="dashboard-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <h3 class="card-title">물 섭취</h3>
+                                        <p class="card-value" id="todayWater">0 잔</p>
+                                        <p class="card-subtitle">목표: 8 잔</p>
+                                    </div>
+                                </div>
+
+                                <div class="dashboard-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-dumbbell"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <h3 class="card-title">이번 주 운동</h3>
+                                        <p class="card-value" id="weekExercise">0회</p>
+                                        <p class="card-subtitle">목표: 5회</p>
+                                    </div>
+                                </div>
+
+                                <div class="dashboard-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <h3 class="card-title">기록 일수</h3>
+                                        <p class="card-value" id="totalDays">0일</p>
+                                        <p class="card-subtitle">연속 기록 중</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 최근 활동 -->
+                            <div class="dashboard-section">
+                                <h3 class="section-title">최근 활동</h3>
+                                <div id="recentActivity" class="activity-list">
+                                    <p class="empty-message">아직 기록된 활동이 없습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 통계 화면 -->
+                    <div id="statsView" class="view-container" style="display: none;">
+                        <div id="statsContainer"></div>
+                    </div>
+
+                    <!-- 프로필 화면 -->
+                    <div id="profileView" class="view-container" style="display: none;">
+                        <div class="profile-page">
+                            <div class="profile-header">
+                                <h2>내 프로필</h2>
+                                <p class="profile-email" id="profileEmail"></p>
+                            </div>
+
+                            <div class="profile-section">
+                                <h3>계정 정보</h3>
+                                <div class="profile-info-item">
+                                    <span class="profile-info-label">이메일</span>
+                                    <span class="profile-info-value" id="profileEmailDetail"></span>
+                                </div>
+                                <div class="profile-info-item">
+                                    <span class="profile-info-label">가입일</span>
+                                    <span class="profile-info-value" id="profileCreatedAt"></span>
+                                </div>
+                                <div class="profile-info-item">
+                                    <span class="profile-info-label">최근 로그인</span>
+                                    <span class="profile-info-value" id="profileLastLogin"></span>
+                                </div>
+                            </div>
+
+                            <div class="profile-section">
+                                <h3>설정</h3>
+                                <div class="profile-actions">
+                                    <button class="profile-button" id="changePasswordBtn">비밀번호 변경</button>
+                                    <button class="profile-button danger" id="deleteAccountBtn">계정 삭제</button>
+                                </div>
+                            </div>
+
+                            <div class="profile-section">
+                                <h3>이용 정보</h3>
+                                <div class="profile-actions">
+                                    <button class="profile-button secondary" id="termsOfServiceBtn">이용약관</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- 프로필 화면 -->
-                <div id="profileView" class="view-container" style="display: none;">
-                    <div class="profile-page">
-                        <div class="profile-header">
-                            <h2>내 프로필</h2>
-                            <p class="profile-email" id="profileEmail"></p>
-                        </div>
-
-                        <div class="profile-section">
-                            <h3>계정 정보</h3>
-                            <div class="profile-info-item">
-                                <span class="profile-info-label">이메일</span>
-                                <span class="profile-info-value" id="profileEmailDetail"></span>
-                            </div>
-                            <div class="profile-info-item">
-                                <span class="profile-info-label">가입일</span>
-                                <span class="profile-info-value" id="profileCreatedAt"></span>
-                            </div>
-                            <div class="profile-info-item">
-                                <span class="profile-info-label">최근 로그인</span>
-                                <span class="profile-info-value" id="profileLastLogin"></span>
-                            </div>
-                        </div>
-
-                        <div class="profile-section">
-                            <h3>설정</h3>
-                            <div class="profile-actions">
-                                <button class="profile-button" id="changePasswordBtn">비밀번호 변경</button>
-                                <button class="profile-button danger" id="deleteAccountBtn">계정 삭제</button>
-                            </div>
-                        </div>
+                
+                <!-- 광고 배너 - 오른쪽 -->
+                <div class="ad-banner ad-banner-right">
+                    <div class="ad-placeholder">
+                        <div class="ad-placeholder-icon">📢</div>
+                        <div class="ad-placeholder-text">광고 영역</div>
+                        <div class="ad-placeholder-size">160 x 600</div>
                     </div>
                 </div>
             </main>
@@ -250,8 +446,39 @@
                     <textarea class="extra-info-textarea" id="memoInput" placeholder="오늘의 기분, 컨디션 등을 기록하세요"></textarea>
                 </div>
 
+                <!-- 사진 -->
+                <div class="extra-info-section">
+                    <h4 class="extra-info-title">📷 사진 (최대 2장)</h4>
+                    <div class="image-upload-container">
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;" multiple>
+                        <button type="button" class="image-upload-button" id="imageUploadBtn">
+                            <i class="fas fa-camera"></i>
+                            사진 추가
+                        </button>
+                        <div class="image-preview-container" id="imagePreviewContainer"></div>
+                        <div class="storage-info" id="storageInfo"></div>
+                    </div>
+                </div>
+
                 <div class="meal-modal-footer">
                     <button class="meal-save-button" id="mealModalSave">저장</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 이용약관 모달 -->
+        <div id="termsModal" class="terms-modal">
+            <div class="terms-modal-overlay"></div>
+            <div class="terms-modal-content">
+                <div class="terms-modal-header">
+                    <h2>LiteDays 이용약관</h2>
+                    <button class="terms-modal-close" id="termsModalClose">✕</button>
+                </div>
+                <div class="terms-modal-body" id="termsModalBody">
+                    <!-- 약관 내용은 JavaScript로 로드 -->
+                </div>
+                <div class="terms-modal-footer">
+                    <button class="terms-modal-button" id="termsModalConfirm">확인</button>
                 </div>
             </div>
         </div>

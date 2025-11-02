@@ -7,17 +7,22 @@ import { MealManager } from './meal.js';
 import { MealModal } from './mealModal.js';
 import { StatsManager } from './stats.js';
 import { StatsPage } from './statsPage.js';
+import { Dashboard } from './dashboard.js';
+import { MotivationManager } from './motivation.js';
 
 // DOM 요소들
 const loginPage = document.getElementById('loginPage');
 const registerPage = document.getElementById('registerPage');
 const mainApp = document.getElementById('mainApp');
 const calendarView = document.getElementById('calendarView');
+const dashboardView = document.getElementById('dashboardView');
 const statsView = document.getElementById('statsView');
 const profileView = document.getElementById('profileView');
 const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
 const logoutButton = document.getElementById('logoutButton');
+const calendarButton = document.getElementById('calendarButton');
+const dashboardButton = document.getElementById('dashboardButton');
 const statsButton = document.getElementById('statsButton');
 const profileButton = document.getElementById('profileButton');
 const backToCalendar = document.getElementById('backToCalendar');
@@ -29,6 +34,7 @@ const registerError = document.getElementById('registerError');
 // 프로필 페이지 요소들
 const changePasswordBtn = document.getElementById('changePasswordBtn');
 const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+const termsOfServiceBtn = document.getElementById('termsOfServiceBtn');
 
 // 매니저 인스턴스 생성
 const authManager = new AuthManager();
@@ -36,9 +42,11 @@ const themeManager = new ThemeManager();
 const modal = new Modal();
 const mealManager = new MealManager();
 const statsManager = new StatsManager(mealManager);
+const motivationManager = new MotivationManager();
 let calendar = null;
 let mealModal = null;
 let statsPage = null;
+let dashboard = null;
 
 // 에러 메시지 표시 함수
 function showError(element, message) {
@@ -56,7 +64,12 @@ function updateThemeIcon() {
     const themeIcon = document.getElementById('themeIcon');
     if (themeIcon) {
         const currentTheme = themeManager.getTheme();
-        themeIcon.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        // Font Awesome 아이콘 바꾸기
+        if (currentTheme === 'dark') {
+            themeIcon.className = 'fas fa-sun';
+        } else {
+            themeIcon.className = 'fas fa-moon';
+        }
     }
 }
 
@@ -105,6 +118,7 @@ function showMainApp() {
     
     // 캘린더 뷰 표시, 다른 뷰 숨김
     calendarView.style.display = 'block';
+    dashboardView.style.display = 'none';
     statsView.style.display = 'none';
     profileView.style.display = 'none';
     
@@ -127,12 +141,21 @@ function showMainApp() {
         mealModal = new MealModal(mealManager, () => {
             // 모달 닫을 때 캘린더 리렌더링
             calendar.render();
+            // 대시보드도 업데이트
+            if (dashboard) {
+                dashboard.render();
+            }
         });
+        
+        // 대시보드 초기화
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        dashboard = new Dashboard(dashboardContainer, mealManager);
     }
 }
 
 function showStatsView() {
     calendarView.style.display = 'none';
+    dashboardView.style.display = 'none';
     statsView.style.display = 'block';
     profileView.style.display = 'none';
     
@@ -144,8 +167,21 @@ function showStatsView() {
     statsPage.render();
 }
 
+function showDashboardView() {
+    calendarView.style.display = 'none';
+    dashboardView.style.display = 'block';
+    statsView.style.display = 'none';
+    profileView.style.display = 'none';
+    
+    // 대시보드 렌더링
+    if (dashboard) {
+        dashboard.render();
+    }
+}
+
 function showProfileView() {
     calendarView.style.display = 'none';
+    dashboardView.style.display = 'none';
     statsView.style.display = 'none';
     profileView.style.display = 'block';
     loadProfileInfo();
@@ -153,6 +189,7 @@ function showProfileView() {
 
 function showCalendarView() {
     calendarView.style.display = 'block';
+    dashboardView.style.display = 'none';
     statsView.style.display = 'none';
     profileView.style.display = 'none';
 }
@@ -218,6 +255,16 @@ logoutButton.addEventListener('click', () => {
     showLoginPage();
 });
 
+// 캘린더 버튼 처리
+calendarButton.addEventListener('click', () => {
+    showCalendarView();
+});
+
+// 대시보드 버튼 처리
+dashboardButton.addEventListener('click', () => {
+    showDashboardView();
+});
+
 // 통계 버튼 처리
 statsButton.addEventListener('click', () => {
     showStatsView();
@@ -253,6 +300,38 @@ deleteAccountBtn.addEventListener('click', () => {
     }
 });
 
+// 이용약관 버튼
+termsOfServiceBtn.addEventListener('click', async () => {
+    const termsModal = document.getElementById('termsModal');
+    const termsModalBody = document.getElementById('termsModalBody');
+    const termsModalClose = document.getElementById('termsModalClose');
+    const termsModalOverlay = termsModal.querySelector('.terms-modal-overlay');
+    const termsModalConfirm = document.getElementById('termsModalConfirm');
+    
+    // 약관 내용 로드
+    try {
+        const response = await fetch('./data/terms.html');
+        const html = await response.text();
+        termsModalBody.innerHTML = html;
+    } catch (error) {
+        termsModalBody.innerHTML = '<p>이용약관을 불러오는 중 오류가 발생했습니다.</p>';
+    }
+    
+    // 모달 표시
+    termsModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    
+    // 닫기 이벤트
+    const closeModal = () => {
+        termsModal.classList.remove('show');
+        document.body.style.overflow = '';
+    };
+    
+    termsModalClose.addEventListener('click', closeModal, { once: true });
+    termsModalOverlay.addEventListener('click', closeModal, { once: true });
+    termsModalConfirm.addEventListener('click', closeModal, { once: true });
+});
+
 // 페이지 전환 버튼들
 showRegisterBtn.addEventListener('click', () => {
     registerForm.reset();
@@ -272,10 +351,23 @@ themeToggle.addEventListener('click', () => {
 });
 
 // 앱 시작 - 로그인 상태 확인
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // 동기부여 문구 로드
+    await motivationManager.loadMotivations();
+    updateMotivation();
+    
     if (authManager.isLoggedIn()) {
         showMainApp();
     } else {
         showLoginPage();
     }
 });
+
+// 동기부여 문구 업데이트
+function updateMotivation() {
+    const motivationElement = document.getElementById('motivationText');
+    if (motivationElement) {
+        const motivation = motivationManager.getRandomMotivation();
+        motivationElement.textContent = motivation;
+    }
+}

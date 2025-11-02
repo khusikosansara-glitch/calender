@@ -14,6 +14,93 @@
     padding: var(--spacing-lg);
 }
 
+/* LiteDays 로고 스타일 */
+.login-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: var(--spacing-md);
+}
+
+/* 로고 아이콘 */
+.login-logo-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    border-radius: 14px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(168, 237, 234, 0.3);
+}
+
+.login-logo-icon::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    height: 5px;
+    background: white;
+    border-radius: 3px;
+    opacity: 0.9;
+}
+
+.login-calendar-dots {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+    margin-top: 8px;
+}
+
+.login-calendar-dot {
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+}
+
+.login-calendar-dot.highlight {
+    background: #fed6e3;
+    box-shadow: 0 0 6px rgba(254, 214, 227, 0.8);
+}
+
+/* 다크모드에서 로고 가시성 개선 */
+[data-theme="dark"] .login-logo-icon {
+    background: linear-gradient(135deg, #4fd1c5 0%, #f687b3 100%);
+    box-shadow: 0 4px 20px rgba(79, 209, 197, 0.4);
+}
+
+[data-theme="dark"] .logo-lite {
+    color: #81e6d9;
+    text-shadow: 0 0 10px rgba(129, 230, 217, 0.5);
+}
+
+[data-theme="dark"] .login-calendar-dot.highlight {
+    background: #f687b3;
+    box-shadow: 0 0 10px rgba(246, 135, 179, 0.9);
+}
+
+/* 로고 텍스트 */
+.login-logo-text {
+    font-size: 56px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+}
+
+.logo-lite {
+    font-weight: 200;
+    color: #4fd1c5;
+}
+
+.logo-days {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
 .login-title {
     font-size: 32px;
     font-weight: 700;
@@ -142,6 +229,32 @@
         padding: var(--spacing-md);
     }
 
+    .login-logo {
+        gap: 10px;
+    }
+    
+    .login-logo-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+    }
+    
+    .login-logo-icon::before {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        height: 4px;
+    }
+    
+    .login-calendar-dot {
+        width: 4.5px;
+        height: 4.5px;
+    }
+    
+    .login-logo-text {
+        font-size: 48px;
+    }
+
     .login-title {
         font-size: 28px;
     }
@@ -165,8 +278,39 @@
         padding: var(--spacing-sm);
     }
 
+    .login-logo {
+        gap: 8px;
+    }
+    
+    .login-logo-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 11px;
+    }
+    
+    .login-logo-icon::before {
+        top: 9px;
+        left: 9px;
+        right: 9px;
+        height: 3.5px;
+    }
+    
+    .login-calendar-dots {
+        gap: 2.5px;
+        margin-top: 7px;
+    }
+    
+    .login-calendar-dot {
+        width: 4px;
+        height: 4px;
+    }
+    
+    .login-logo-text {
+        font-size: 42px;
+    }
+
     .login-title {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .login-subtitle {

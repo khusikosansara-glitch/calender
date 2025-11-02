@@ -3,22 +3,125 @@
     min-height: 100vh;
 }
 
+/* 메인 앱 레이아웃 - 광고 공간 포함 */
+.main-app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-md) var(--spacing-lg);
     border-bottom: 1px solid var(--border-color);
+    gap: var(--spacing-md);
 }
 
-.header h1 {
-    font-size: 24px;
-    font-weight: 600;
+/* LiteDays 헤더 로고 */
+.header-logo {
+    font-size: 28px;
+    font-weight: 300;
     color: var(--text-primary);
     transition: opacity 0.2s ease;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
 }
 
-.header h1:hover {
+/* 동기부여 문구 */
+.motivation-text {
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent-color);
+    padding: 0 var(--spacing-md);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .motivation-text {
+    color: #81e6d9;
+    text-shadow: 0 0 10px rgba(129, 230, 217, 0.3);
+}
+
+/* 로고 아이콘 */
+.header-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.header-logo-icon::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+    opacity: 0.9;
+}
+
+.header-calendar-dots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 4px;
+}
+
+.header-calendar-dot {
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+}
+
+.header-calendar-dot.highlight {
+    background: #fed6e3;
+}
+
+.header-logo .logo-lite {
+    font-weight: 200;
+    color: #4fd1c5;
+}
+
+.header-logo .logo-days {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* 다크모드에서 로고 가시성 개선 */
+[data-theme="dark"] .header-logo-icon {
+    background: linear-gradient(135deg, #4fd1c5 0%, #f687b3 100%);
+    box-shadow: 0 0 20px rgba(79, 209, 197, 0.3);
+}
+
+[data-theme="dark"] .logo-lite {
+    color: #81e6d9;
+    text-shadow: 0 0 10px rgba(129, 230, 217, 0.5);
+}
+
+[data-theme="dark"] .header-calendar-dot.highlight {
+    background: #f687b3;
+    box-shadow: 0 0 8px rgba(246, 135, 179, 0.8);
+}
+
+.header-logo:hover {
     opacity: 0.7;
 }
 
@@ -37,28 +140,110 @@
     border-radius: var(--border-radius);
     font-size: 14px;
     font-weight: 500;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
     white-space: nowrap;
     min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
+}
+
+.header-actions button i {
+    font-size: 16px;
 }
 
 .header-actions button:hover {
     background-color: var(--hover-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-actions button:active {
+    transform: translateY(0);
+}
+
+/* 다크모드 버튼 호버 */
+[data-theme="dark"] .header-actions button:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 툴팁 스타일 */
+.header-actions button {
+    position: relative;
+}
+
+.header-actions button::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 8px);  /* 버튼 아래로 변경 */
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);  /* 아래로 */
+    padding: 6px 12px;
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.header-actions button::before {
+    content: '';
+    position: absolute;
+    top: calc(100% + 2px);  /* 버튼 바로 아래 */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: var(--text-primary);  /* 화살표 아래 향하게 */
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.header-actions button:hover::after,
+.header-actions button:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* 다크모드 툴팁 */
+[data-theme="dark"] .header-actions button::after {
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .header-actions button::before {
+    border-bottom-color: var(--text-primary);  /* 다크모드에서도 아래 */
 }
 
 /* 프로필 버튼 */
 .profile-button {
-    font-size: 18px;
     padding: 10px 14px;
+}
+
+.profile-button i {
+    font-size: 16px;
 }
 
 /* 테마 토글 버튼 */
 .theme-toggle {
-    font-size: 18px;
     padding: 10px 14px;
+}
+
+.theme-toggle i {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover i {
+    transform: rotate(20deg);
 }
 
 /* 로그아웃 버튼 */
@@ -66,8 +251,29 @@
     padding: 10px 16px;
 }
 
+.logout-button i {
+    font-size: 14px;
+}
+
 .main-content {
     padding: var(--spacing-lg);
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+/* 콘텐츠 래퍼 - 여백 축소 */
+.content-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--content-padding);
+}
+
+/* 광고 배너 공간 - 비활성화 */
+.ad-banner {
+    display: none !important;
 }
 
 .view-container {
@@ -89,8 +295,31 @@
         padding: var(--spacing-sm) var(--spacing-md);
     }
 
-    .header h1 {
-        font-size: 18px;
+    .header-logo {
+        font-size: 22px;
+    }
+    
+    .motivation-text {
+        font-size: 13px;
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .header-logo-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+    }
+    
+    .header-logo-icon::before {
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        height: 2.5px;
+    }
+    
+    .header-calendar-dot {
+        width: 2.5px;
+        height: 2.5px;
     }
 
     .header-actions {
@@ -102,15 +331,34 @@
         font-size: 13px;
         min-height: 36px;
     }
+    
+    .header-actions button i {
+        font-size: 14px;
+    }
 
-    .profile-button,
+    .profile-button {
+        padding: 8px 10px;
+    }
+    
+    .profile-button i {
+        font-size: 14px;
+    }
+    
     .theme-toggle {
         padding: 8px 10px;
-        font-size: 16px;
+    }
+    
+    .theme-toggle i {
+        font-size: 14px;
     }
 
     .main-content {
         padding: var(--spacing-md);
+    }
+    
+    /* 태블릿에선 여백 축소 */
+    .content-wrapper {
+        padding: 0 var(--spacing-md);
     }
 }
 
@@ -118,14 +366,41 @@
 @media (max-width: 480px) {
     .header {
         padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
     }
 
-    .header h1 {
-        font-size: 16px;
-        max-width: 120px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    .header-logo {
+        font-size: 20px;
+        gap: 8px;
+    }
+    
+    .motivation-text {
+        font-size: 12px;
+        padding: 0;
+        max-width: 200px;
+    }
+    
+    .header-logo-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+    }
+    
+    .header-logo-icon::before {
+        top: 4px;
+        left: 4px;
+        right: 4px;
+        height: 2px;
+    }
+    
+    .header-calendar-dots {
+        gap: 1.5px;
+        margin-top: 3px;
+    }
+    
+    .header-calendar-dot {
+        width: 2px;
+        height: 2px;
     }
 
     .header-actions {
@@ -136,17 +411,40 @@
         padding: 6px 10px;
         font-size: 12px;
         min-height: 32px;
+        gap: 4px;
+    }
+    
+    .header-actions button i {
+        font-size: 13px;
     }
 
-    .profile-button,
+    .profile-button {
+        padding: 6px 8px;
+    }
+    
+    .profile-button i {
+        font-size: 13px;
+    }
+    
     .theme-toggle {
         padding: 6px 8px;
-        font-size: 14px;
+    }
+    
+    .theme-toggle i {
+        font-size: 13px;
     }
 
     /* 로그아웃 버튼 텍스트 숨기고 아이콘만 표시 */
+    .logout-button .button-text {
+        display: none;
+    }
+    
     .logout-button {
         padding: 6px 8px;
+    }
+    
+    .logout-button i {
+        font-size: 13px;
     }
 
     .main-content {
@@ -156,9 +454,27 @@
 
 /* 아주 작은 화면 (360px 이하) */
 @media (max-width: 360px) {
-    .header h1 {
-        font-size: 14px;
-        max-width: 100px;
+    .header-logo {
+        font-size: 18px;
+        gap: 6px;
+    }
+    
+    .header-logo-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+    }
+    
+    .header-logo-icon::before {
+        top: 3px;
+        left: 3px;
+        right: 3px;
+        height: 1.5px;
+    }
+    
+    .header-calendar-dot {
+        width: 1.5px;
+        height: 1.5px;
     }
 
     .header-actions button {
@@ -166,9 +482,14 @@
         font-size: 11px;
         min-height: 28px;
     }
+    
+    .header-actions button i {
+        font-size: 12px;
+    }
 
-    .profile-button,
-    .theme-toggle {
-        font-size: 13px;
+    .profile-button i,
+    .theme-toggle i,
+    .logout-button i {
+        font-size: 12px;
     }
 }

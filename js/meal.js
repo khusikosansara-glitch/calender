@@ -23,14 +23,15 @@ export class MealManager {
         const allMeals = this.getAllMeals();
         
         return allMeals[dateKey] || {
-            breakfast: [],
-            lunch: [],
-            dinner: [],
-            snack: [],
-            water: 0,
-            exercise: '',
-            memo: ''
-        };
+        breakfast: [],
+        lunch: [],
+        dinner: [],
+        snack: [],
+        water: 0,
+        exercise: '',
+        memo: '',
+            images: []  // 이미지 배열 추가
+            };
     }
 
     // 식사 추가
@@ -46,7 +47,8 @@ export class MealManager {
                 snack: [],
                 water: 0,
                 exercise: '',
-                memo: ''
+                memo: '',
+                images: []  // 이미지 배열 추가
             };
         }
         
@@ -100,7 +102,8 @@ export class MealManager {
                dateData.snack.length === 0 &&
                dateData.water === 0 &&
                !dateData.exercise &&
-               !dateData.memo;
+               !dateData.memo &&
+               (!dateData.images || dateData.images.length === 0);  // 이미지 확인 추가
     }
 
     // 식사 데이터 저장

@@ -1,6 +1,6 @@
 /* 캘린더 컴포넌트 스타일 */
 .calendar-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: var(--spacing-lg);
 }
@@ -32,11 +32,56 @@
     background-color: var(--hover-color);
 }
 
-.calendar-grid {
+/* 요일 헤더 */
+.calendar-weekdays {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: 50px repeat(7, 1fr);
     gap: 4px;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 4px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 8px 0;
+}
+
+.calendar-weekday.sunday {
+    color: #dc3545;
+}
+
+.calendar-weekday.saturday {
+    color: #4a90e2;
+}
+
+.calendar-weekday.week-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* 캘린더 그리드 (주차 포함) */
+.calendar-grid {
+    display: contents;
+}
+
+.calendar-week-row {
+    display: grid;
+    grid-template-columns: 50px repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.calendar-week-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
 }
 
 .calendar-day {
@@ -52,6 +97,14 @@
     transition: all 0.2s ease;
     font-size: 14px;
     position: relative;
+}
+
+.calendar-day.sunday {
+    color: #dc3545;
+}
+
+.calendar-day.saturday {
+    color: #4a90e2;
 }
 
 .calendar-day:hover {
@@ -263,6 +316,23 @@
         font-size: 13px;
     }
 
+    .calendar-weekdays {
+        grid-template-columns: 40px repeat(7, 1fr);
+    }
+
+    .calendar-week-row {
+        grid-template-columns: 40px repeat(7, 1fr);
+    }
+
+    .calendar-weekday {
+        font-size: 12px;
+        padding: 6px 0;
+    }
+
+    .calendar-week-number {
+        font-size: 11px;
+    }
+
     .calendar-day {
         font-size: 13px;
     }
@@ -301,9 +371,25 @@
         font-size: 12px;
     }
 
-    .calendar-grid {
+    .calendar-weekdays {
+        grid-template-columns: 32px repeat(7, 1fr);
         gap: 2px;
-        margin-bottom: var(--spacing-md);
+        margin-bottom: 2px;
+    }
+
+    .calendar-week-row {
+        grid-template-columns: 32px repeat(7, 1fr);
+        gap: 2px;
+        margin-bottom: 2px;
+    }
+
+    .calendar-weekday {
+        font-size: 11px;
+        padding: 4px 0;
+    }
+
+    .calendar-week-number {
+        font-size: 10px;
     }
 
     .calendar-day {
@@ -361,7 +447,105 @@
         font-size: 11px;
     }
 
+    .calendar-weekdays {
+        grid-template-columns: 28px repeat(7, 1fr);
+    }
+
+    .calendar-week-row {
+        grid-template-columns: 28px repeat(7, 1fr);
+    }
+
+    .calendar-weekday {
+        font-size: 10px;
+    }
+
+    .calendar-week-number {
+        font-size: 9px;
+    }
+
     .calendar-day {
         font-size: 11px;
+    }
+}
+
+/* 식사 기록 이미지 */
+.meal-summary-image-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.meal-summary-image-header h4 {
+    margin-bottom: 0;
+}
+
+/* 이미지 탭 */
+.image-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.image-tab {
+    padding: 6px 12px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.image-tab:hover {
+    background-color: var(--hover-color);
+}
+
+.image-tab.active {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+/* 이미지 컨테이너 */
+.meal-summary-images-container {
+    position: relative;
+    margin-top: var(--spacing-sm);
+}
+
+.meal-summary-image-single {
+    display: none;
+    width: 70%;  /* 30% 축소 */
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.meal-summary-image-single.active {
+    display: block;
+}
+
+.meal-summary-image-single img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 모바일에서 이미지 크기 조정 */
+@media (max-width: 480px) {
+    .meal-summary-image-single {
+        width: 100%;  /* 모바일에선 전체 폭 */
+    }
+    
+    .image-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .image-tab {
+        flex: 1;
+        min-width: 80px;
+        text-align: center;
     }
 }
